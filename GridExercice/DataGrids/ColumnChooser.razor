@@ -1,0 +1,41 @@
+﻿@typeparam TItem
+
+<div class="columnSelectorBox">
+
+    <div class="header">
+        <div class="title">
+            Colonnes à afficher
+        </div>
+        <svg class="closeButton" @onclick="OnCloseClicked">
+            <path xmlns="http://www.w3.org/2000/svg" fill-rule="evenodd" clip-rule="evenodd" d="M13 11.51 11.51 13 8 9.487 4.49 13 3 11.51 6.51 8 3 4.49l1.49-1.49L8 6.51 11.51 3 13 4.489l-3.51 3.51L13 11.51Z" />
+        </svg>
+    </div>
+
+    <ul class="columnList">
+        
+        @foreach (var col in Columns)
+        {
+            <li class="columnItem">
+                <input type="checkbox" class="checkbox" checked="@col.Visible" @onchange="()=>CheckboxCliched(col)" />
+                @col.HeaderText
+            </li>
+        }
+    </ul>
+</div>
+
+
+@code {
+    [Parameter]
+    public List<GridColumn<TItem>> Columns { get; set; }
+
+    [Parameter]
+    public EventCallback<GridColumn<TItem>> OnChange { get; set; }
+
+    [Parameter]
+    public EventCallback OnCloseClicked { get; set; }
+
+    private void CheckboxCliched(GridColumn<TItem> column) {
+        column.Visible = !column.Visible;
+        OnChange.InvokeAsync(column);
+    }
+}

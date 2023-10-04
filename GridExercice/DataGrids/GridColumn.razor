@@ -1,0 +1,26 @@
+﻿@typeparam TItem
+
+@code {
+
+    [Parameter]
+    public string HeaderText { get; set; }
+
+    [Parameter]
+    public bool Visible { get; set; } = true;
+
+    [CascadingParameter]
+    public DataGrid<TItem> Parent { get; set; }
+
+    protected override void OnInitialized()
+    {
+        if (Parent == null)
+            throw new ArgumentException("Parent not defined. Make sure your component is in a DataGrid element");
+        Parent.Add(this);
+    }
+
+    [Parameter]
+    public RenderFragment<TItem> ChildContent { get; set; }
+
+    [Parameter]
+    public Func<TItem, string> Field { get; set; }
+}

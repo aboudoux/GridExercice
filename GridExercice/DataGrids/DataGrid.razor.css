@@ -1,0 +1,47 @@
+﻿table {
+	border-collapse: collapse;
+	width: 100%;
+}
+
+th, td {
+	border: 1px solid #dddddd;
+	text-align: left;
+	padding: 8px;
+}
+
+th {
+	background-color: #4CAF50;
+	color: white;
+}
+
+tr:nth-child(even) {
+	background-color: #f2f2f2;
+}
+
+.table-container {
+	max-height: 500px; /* Définissez la hauteur maximale souhaitée ici */
+	overflow-y: auto; /* Affiche une barre de défilement verticale si nécessaire */
+	border: 1px solid #ccc; 
+      }
+
+		.actionBar {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+
+.actionButton {
+    border: 1px solid #6b7280; /* border-gray-500 */
+	border-radius: 4px; /* rounded-lg */
+	padding: 0.5rem; /* px-2 */
+	margin: 0.25rem; /* m-1 */
+	cursor: pointer;
+	user-select: none;
+	transition: transform 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.actionButton:active {
+	transform: scale(0.9);
+	box-shadow: 0 0 0 2px #93c5fd; /* light blue ring */
+}
+

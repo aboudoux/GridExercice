@@ -1,0 +1,92 @@
+﻿@typeparam TItem
+@attribute [CascadingTypeParameter(nameof(TItem))]
+@inject IJSRuntime JsRuntime
+
+<CascadingValue Value="this">
+    @ChildContent
+</CascadingValue>
+
+<div class="actionBar">
+    <div class="actionButton" @onclick="()=>_showColumnChooserPopop = !_showColumnChooserPopop">Colonnes</div>
+</div>
+
+@if (_showColumnChooserPopop) {
+
+    <div style="position: relative;">
+        <div style="position: absolute; right: 0; z-index: 50;">
+            <ColumnChooser TItem="TItem" Columns="_columns" OnChange="ColumnChooserChanged" OnCloseClicked="() => _showColumnChooserPopop = false"></ColumnChooser>
+        </div>
+    </div>
+}
+
+<div class="table-container">
+    <table>
+        <thead>
+        @foreach (var col in _columns.Where(a=>a.Visible))
+        {
+            <th>@col.HeaderText</th>
+        }
+
+        </thead>
+        <tbody>
+       
+        @foreach (var item in DataSource)
+        {
+            <tr>
+            @foreach (var col in _columns.Where(a=>a.Visible))
+            {
+                <td>
+                @if (col.ChildContent == null)
+                {
+                    @col.Field(item)
+                }
+                else
+                {
+                    @col.ChildContent(item)
+                }
+                </td>
+            }
+            </tr>
+        }
+       
+        </tbody>
+    </table>
+</div>
+
+@code
+{
+    [Parameter]
+    public RenderFragment ChildContent { get; set; }
+
+    [Parameter]
+    public TItem[] DataSource { get; set; } = Array.Empty<TItem>();
+
+    private readonly List<GridColumn<TItem>> _columns = new();
+
+    public void Add(GridColumn<TItem> gridColumn)
+    {
+        _columns.Add(gridColumn);
+        StateHasChanged();
+    }
+
+    private bool _showColumnChooserPopop { get; set; }
+
+    private void ColumnChooserChanged(GridColumn<TItem> column)
+    {
+        JsRuntime.InvokeVoidAsync("Grid.saveToLocalStorage", column.HeaderText, column.Visible);
+        StateHasChanged();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            foreach (var gridColumn in _columns)
+            {
+                gridColumn.Visible = await JsRuntime.InvokeAsync<bool>("Grid.getFromLocalStorage", gridColumn.HeaderText);
+            }
+            StateHasChanged();
+        }
+    }
+
+}

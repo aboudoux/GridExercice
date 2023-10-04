@@ -1,0 +1,57 @@
+﻿@page "/"
+
+<PageTitle>Index</PageTitle>
+
+
+<img src="screen.png" />
+
+<DataGrid DataSource="infos">
+    <GridColumn TItem="Info" HeaderText="Prénom" Field="a => a.FirstName"></GridColumn>
+    <GridColumn TItem="Info" HeaderText="Nom" Field="a => a.LastName"></GridColumn>
+    <GridColumn TItem="Info" HeaderText="Age"><span>@context.Age ans</span> </GridColumn>
+    <GridColumn TItem="Info" HeaderText="Adresse" Field="a => a.Address"></GridColumn>
+</DataGrid>
+
+
+
+<SurveyPrompt Title="How is Blazor working for you?" />
+
+@code
+{
+    record Info(string FirstName, string LastName, int Age, string Address);
+
+    Info[] infos = 
+    {
+        new("Alice", "Johnson", 28, "123 Main St"),
+        new("Bob", "Smith", 35, "456 Oak St"),
+        new("Charlie", "Brown", 22, "789 Pine St"),
+        new("Diana", "White", 31, "101 Maple St"),
+        new("Ethan", "Green", 29, "102 Birch St"),
+        new("Fiona", "Black", 25, "103 Cedar St"),
+        new("George", "Lee", 32, "104 Elm St"),
+        new("Hannah", "Taylor", 27, "105 Spruce St"),
+        new("Ivan", "Martinez", 23, "106 Pine St"),
+        new("Jack", "Davis", 33, "107 Maple St"),
+        new("Karen", "Garcia", 30, "108 Birch St"),
+        new("Liam", "White", 34, "109 Cedar St"),
+        new("Mia", "Rodriguez", 26, "110 Elm St"),
+        new("Noah", "Martinez", 28, "111 Spruce St"),
+        new("Olivia", "Taylor", 28, "112 Pine St"),
+        new("Paul", "Garcia", 36, "113 Maple St"),
+        new("Quincy", "Adams", 22, "114 Birch St"),
+        new("Rosa", "White", 33, "115 Cedar St"),
+        new("Sam", "Lee", 32, "116 Elm St"),
+        new("Tina", "Smith", 29, "117 Spruce St"),
+        new("Ulysses", "Black", 31, "118 Pine St"),
+        new("Vera", "Johnson", 23, "119 Maple St"),
+        new("Will", "Smith", 35, "120 Birch St"),
+        new("Xena", "Brown", 27, "121 Cedar St"),
+        new("Yves", "Lee", 28, "122 Elm St"),
+        new("Zara", "Taylor", 28, "123 Spruce St"),
+        new("Amy", "Davis", 35, "124 Pine St"),
+        new("Brian", "Garcia", 27, "125 Maple St"),
+        new("Celia", "Martinez", 30, "126 Birch St"),
+        new("Dave", "Rodriguez", 31, "127 Cedar St"),
+    };
+
+}
